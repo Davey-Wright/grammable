@@ -6,4 +6,9 @@ FactoryBot.define do
     password "dummypassword"
     password_confirmation "dummypassword"
   end
+
+  factory :gram do
+    message 'This is a dummy message'
+    user
+  end
 end

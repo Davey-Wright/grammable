@@ -66,7 +66,6 @@ RSpec.describe GramsController, type: :controller do
 		it "Should properly deal with validation errors" do
 			user = FactoryBot.create(:user)
 			sign_in user
-
 			gram_count = user.grams.count
 			post :create, params: { gram: { message: '' } }
 			expect(response).to have_http_status(:unprocessable_entity)
@@ -94,19 +93,53 @@ RSpec.describe GramsController, type: :controller do
 	end
 
 	describe 'grams#edit action' do
-		it "Should display the edit form for the gram if the gram is found" do
+
+		it "Should display the edit form if the gram is found" do
 			gram = FactoryBot.create(:gram)
 			get :edit, params: { id: gram.id }
 			expect(response).to have_http_status(:success)
 		end
 
 		it "Should return a 404 message if the gram is not found" do
-			gram = FactoryBot.create(:gram)
-			get :edit, params: { id: gram.id }
+			get :edit, params: { id: "shaka" }
+			expect(response).to have_http_status(:not_found)
+		end
+	end
+
+	describe 'grams#update action' do
+
+		# - when a user makes a PUT request
+		# - to the url and the gram is not found
+		# - a 404 status should be rendered
+		it "Should display a 404 status if the gram is not found" do
+			patch :update, params: { id: 'YOLOswagger', gram: { message: 'Senor!' } }
 			expect(response).to have_http_status(:not_found)
 		end
 
-		it "Should redirect an unauthenticated user to the login page" do
+		# - when a user makes a PUT request
+		# - to the url gram/edit/id and the gram is found
+		# - it should successfully update the gram
+		it "Should successfully update the gram" do
+			gram = FactoryBot.create(:gram)
+			patch :update, params: { id: gram.id, gram: { message: 'Senor!' } }
+			expect(response).to redirect_to grams_path(gram.id)
+
+			gram.reload
+			expect(gram.message).to eq('Senor!')
 		end
+
+		# - when a user makes a PUT request
+		# - to the url gram/edit/id and the gram is found
+		# - but the gram is not valid
+		# - the proper errors should be rendered
+		it "Should render proper errors on the page" do
+			gram = FactoryBot.create(:gram, message: 'Initial Value')
+			patch :update, params: { id: gram.id, gram: { message: '' } }
+			expect(response).to have_http_status(:unprocessable_entity)
+
+			gram.reload
+			expect(gram.message).to eq('Initial Value')
+		end
+	end
 
 end

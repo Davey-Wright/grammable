@@ -75,16 +75,38 @@ RSpec.describe GramsController, type: :controller do
 	end
 
 	describe 'grams#show action' do
-		it "Should display the page with the correct gram" do
+		# - When a user makes a GET request
+		# - to a url with an id of a VALID gram
+		# - the correct gram should be displayed
+		it "Should display the page if the gram is found" do
 			gram = FactoryBot.create(:gram)
 			get :show, params: { id: gram.id }
 			expect(response).to have_http_status(:success)
 		end
 
-		it "Should display a 404 message" do
+		# - When a user makes a GET request
+		# - to a url with an INVALID/non existent gram
+		# - a 404 not found message should be displayed
+		it "Should return a 404 message if the gram is not found" do
 			get :show, params: { id: 'shaka' }
 			expect(response).to have_http_status(:not_found)
 		end
 	end
+
+	describe 'grams#edit action' do
+		it "Should display the edit form for the gram if the gram is found" do
+			gram = FactoryBot.create(:gram)
+			get :edit, params: { id: gram.id }
+			expect(response).to have_http_status(:success)
+		end
+
+		it "Should return a 404 message if the gram is not found" do
+			gram = FactoryBot.create(:gram)
+			get :edit, params: { id: gram.id }
+			expect(response).to have_http_status(:not_found)
+		end
+
+		it "Should redirect an unauthenticated user to the login page" do
+		end
 
 end

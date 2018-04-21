@@ -25,13 +25,9 @@ RSpec.describe GramsController, type: :controller do
 		# - performs a GET HTTP request to a url that looks like grams/new
 		# - the page should display successfully
 		it "Should display the page properly for authenticated users" do
-			user = User.create(
-				email: 									'fake@gmail.com',
-				password: 							'password',
-				password_confirmation: 	'password'
-			)
-
+			user = FactoryBot.create(:user)
 			sign_in user
+
 			get :new
 			expect(response).to have_http_status(:success)
 			expect(response).to render_template('grams/new')
@@ -52,11 +48,7 @@ RSpec.describe GramsController, type: :controller do
 		# - a new gram should be added to the database
 		# - the user should be redirected to the root page
 		it "Should successfully create a gram and store it in our database" do
-			user = User.create(
-				email: 									'fake@gmail.com',
-				password: 							'password',
-				password_confirmation: 	'password'
-			)
+			user = FactoryBot.create(:user)
 			sign_in user
 
 			post :create, params: { gram: { message: 'Ola!' } }
@@ -72,11 +64,7 @@ RSpec.describe GramsController, type: :controller do
 		# - Our server should result in the HTTP request unprocessable entity
 		# - the database should not have added any entries
 		it "Should properly deal with validation errors" do
-			user = User.create(
-				email: 									'fake@gmail.com',
-				password: 							'password',
-				password_confirmation: 	'password'
-			)
+			user = FactoryBot.create(:user)
 			sign_in user
 
 			gram_count = user.grams.count

@@ -79,6 +79,7 @@ RSpec.describe GramsController, type: :controller do
 		# - the correct gram should be displayed
 		it "Should display the page if the gram is found" do
 			gram = FactoryBot.create(:gram)
+
 			get :show, params: { id: gram.id }
 			expect(response).to have_http_status(:success)
 		end
@@ -94,13 +95,34 @@ RSpec.describe GramsController, type: :controller do
 
 	describe 'grams#edit action' do
 
+		it "Should redirect unauthenticated user to login page" do
+			gram = FactoryBot.create(:gram)
+
+			get :edit, params: { id: gram.id }
+			expect(response).to redirect_to new_user_session_path
+		end
+
+		it "Shouldn't let a user who did not create the gram edit a gram" do
+			gram = FactoryBot.create(:gram)
+			user = FactoryBot.create(:user)
+			sign_in user
+
+			get :edit, params: { id: gram.id }
+			expect(response).to have_http_status(:forbidden)
+		end
+
 		it "Should display the edit form if the gram is found" do
 			gram = FactoryBot.create(:gram)
+			sign_in gram.user
+
 			get :edit, params: { id: gram.id }
 			expect(response).to have_http_status(:success)
 		end
 
 		it "Should return a 404 message if the gram is not found" do
+			user = FactoryBot.create(:user)
+			sign_in user
+
 			get :edit, params: { id: "shaka" }
 			expect(response).to have_http_status(:not_found)
 		end
@@ -108,10 +130,29 @@ RSpec.describe GramsController, type: :controller do
 
 	describe 'grams#update action' do
 
+		it "Should redirect unauthenticated user to login page" do
+			gram = FactoryBot.create(:gram)
+
+			patch :update, params: { id: gram.id, gram: { message: gram.message } }
+			expect(response).to redirect_to new_user_session_path
+		end
+
+		it "Shouldn't let a user who did not create the gram edit a gram" do
+			gram = FactoryBot.create(:gram)
+			user = FactoryBot.create(:user)
+			sign_in user
+
+		 	patch :update, params: { id: gram.id, gram: { message: 'new message' } }
+			expect(response).to have_http_status(:forbidden)
+		end
+
 		# - when a user makes a PUT request
 		# - to the url and the gram is not found
 		# - a 404 status should be rendered
 		it "Should display a 404 status if the gram is not found" do
+			user = FactoryBot.create(:user)
+			sign_in user
+
 			patch :update, params: { id: 'YOLOswagger', gram: { message: 'Senor!' } }
 			expect(response).to have_http_status(:not_found)
 		end
@@ -121,6 +162,8 @@ RSpec.describe GramsController, type: :controller do
 		# - it should successfully update the gram
 		it "Should successfully update the gram" do
 			gram = FactoryBot.create(:gram)
+			sign_in gram.user
+
 			patch :update, params: { id: gram.id, gram: { message: 'Senor!' } }
 			expect(response).to redirect_to grams_path(gram.id)
 
@@ -134,6 +177,7 @@ RSpec.describe GramsController, type: :controller do
 		# - the proper errors should be rendered
 		it "Should render proper errors on the page" do
 			gram = FactoryBot.create(:gram, message: 'Initial Value')
+			sign_in gram.user
 			patch :update, params: { id: gram.id, gram: { message: '' } }
 			expect(response).to have_http_status(:unprocessable_entity)
 
@@ -143,8 +187,26 @@ RSpec.describe GramsController, type: :controller do
 	end
 
 	describe 'grams#destroy action' do
+
+		it "Should redirect unauthenticated user to login page" do
+			gram = FactoryBot.create(:gram)
+			delete :destroy, params: { id: gram.id }
+			expect(response).to redirect_to new_user_session_path
+		end
+
+		it "Shouldn't let a user who did not create the gram edit a gram" do
+			gram = FactoryBot.create(:gram)
+			user = FactoryBot.create(:user)
+			sign_in user
+
+			get :destroy, params: { id: gram.id }
+			expect(response).to have_http_status(:forbidden)
+		end
+
 		it "Should delete the the gram from the database" do
 			gram = FactoryBot.create(:gram)
+			sign_in gram.user
+
 			delete :destroy, params: { id: gram.id, gram: { message: gram.message }}
 			expect(response).to redirect_to root_path
 
@@ -153,6 +215,8 @@ RSpec.describe GramsController, type: :controller do
 		end
 
 		it "Should show a 404 not found message" do
+			user = FactoryBot.create(:user)
+			sign_in user
 			delete :destroy, params: { id: 'shakalaka' }
 			expect(response).to have_http_status(:not_found)
 		end

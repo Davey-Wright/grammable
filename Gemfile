@@ -61,3 +61,8 @@ gem 'bootstrap', '~> 4.0.0'
 gem 'simple_form'
 
 gem 'devise'
+
+gem 'carrierwave', '~> 1.0'
+gem 'fog-aws'
+
+gem "figaro"

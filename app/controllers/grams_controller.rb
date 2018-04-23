@@ -3,6 +3,7 @@ class GramsController < ApplicationController
 	before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
 	def index
+		@grams = Gram.all
 	end
 
 	def new

@@ -39,9 +39,17 @@ class GramsController < ApplicationController
 		else
 			render_unprocessable_entity
 		end
-
 	end
 
+	def destroy
+		@gram = current_gram
+		if @gram.blank?
+			render_not_found
+		else
+			@gram.destroy
+			redirect_to root_path
+		end
+	end
 
 	private
 

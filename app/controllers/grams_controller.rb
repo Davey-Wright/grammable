@@ -58,10 +58,6 @@ class GramsController < ApplicationController
 		params.require(:gram).permit(:message, :photo)
 	end
 
-	def render_status(err)
-		render :new, status: err
-	end
-
 	def current_gram
 		Gram.find_by_id(params[:id])
 	end

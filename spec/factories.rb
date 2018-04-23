@@ -9,6 +9,7 @@ FactoryBot.define do
 
   factory :gram do
     message 'This is a dummy message'
-    user
+    photo { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'hanger.jpg').to_s, 'image/jpeg') }
+    association :user
   end
 end

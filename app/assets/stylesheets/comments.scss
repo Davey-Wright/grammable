@@ -1,3 +1,28 @@
 // Place all the styles related to the comments controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.comments_wrap {
+  width: 100%;
+}
+
+.comments_wrap h2 {
+  margin-bottom: 2rem;
+}
+
+.comments li {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.comments li strong {
+  color: #FF8362;
+  margin-right: .5rem;
+}
+
+@media(min-width:768px){
+  .comments_wrap {
+    width: 80%;
+    margin: 0 auto;
+  }
+}

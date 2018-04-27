@@ -1,10 +1,61 @@
-<h1>Grams</h1>
+<ol class='grams'>
+  <% @grams.each do |gram| %>
+    <li class='gram_card section_margin'>
+      <h2 class='gram_header'>
+        Posted By: <%= link_to gram.user.email, '#', class: 'gram_user' %>
+      </h2>
+      <div class='gram_card_image_container'>
+        <%= image_tag gram.photo %>
+      </div>
+      <footer class='gram_footer'>
+        <div class='section_margin'>
+          <p><%= gram.message %></p>
+          <% if current_user == gram.user %>
+          <div class='gram_card_user_controls'>
+            <%= link_to 'Edit', edit_gram_path(gram) %>
+            <%= link_to 'Delete', gram_path(gram), method: :delete, data: { confirm: 'Are you sure you want to delete this gram?' } %>
+          </div>
+          <% end %>
+        </div>
+        <div class='comments_wrap'>
+          <% if gram.comments.present? %>
+            <h2>Comments</h2>
+            <ol class='comments section_margin'>
+              <% gram.comments.each do |c| %>
+              <li>
+                <p><strong><%= c.user.email %></strong></p>
+                <p><%= c.message %></p>
+              </li>
+              <% end %>
+            </ol>
+          <% end %>
+          <div class='comment_form section_margin'>
+            <h2>Add a comment</h2>
+            <%= simple_form_for Comment.new, url: gram_comments_path(gram) do |c| %>
+              <%= c.input :message, class: 'comment_form_message' %>
+              <%= c.submit 'Post Comment', class: 'cta btn' %>
+              <%= link_to "Cancel", :back, class: "btn btn_secondary" %>
+            <% end %>
+          </div>
+        </div>
 
-<ul>
-  <%= @grams.each do |gram| %>
-    <li>
-      <%= image_tag gram.photo %>
-      <%= gram.message %>
+      </footer>
     </li>
   <% end %>
-</ul>
+</ol>
+
+
+<script type='text/javascript'>
+  // $(()=>{
+  //
+  //   $('.post_comment_btn').click( (event, ui)=>{
+  //     console.log($('.comment_form_message'));
+  //     $.ajax({
+  //       type: 'PUT',
+  //       url: event.target.attributes['data-url'].value,
+  //       dataType: 'JSON',
+  //       data: { message: $('.comment_form_message').val() }
+  //     });
+  //   });
+  // });
+</script>

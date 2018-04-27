@@ -1,0 +1,146 @@
+@import "bootstrap";
+
+
+$brand_color: #FF8362;
+
+
+html {
+  font-size: 14px;
+}
+
+body {
+  background: #eee;
+}
+
+h1 { font-size: 2rem; }
+
+h2 { font-size: 1.5rem; }
+
+h3 { font-size: 1.25rem; }
+
+abbr[title], abbr[data-original-title] {
+  text-decoration: none;
+  color: $brand_color;
+}
+
+a {
+  color: $brand_color;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ol {
+  padding: 0px;
+}
+
+img {
+  max-width: 100%;
+}
+
+.wrap {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.section_margin {
+  margin-bottom: 4rem
+}
+
+.primary_navigation_wrap {
+  padding: 1.5rem 0;
+  width: 100%;
+  background: white;
+}
+
+.primary_navigation {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.primary_navigation nav a {
+  padding-left: 1rem;
+  text-decoration: none;
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+
+.site_notifications {
+  text-align: center;
+  background: white;
+  margin-top: 2rem;
+  font-weight: bold;
+}
+
+.site_notifications p {
+  padding: 1.5rem 0;
+}
+
+.site_notifications .notice {
+  color: green;
+}
+
+.site_notifications .alert {
+  color: red;
+}
+
+.logo {
+  font-size: 2rem;
+  color: $brand_color;
+  font-weight: bold;
+  font-family: 'Lobster', cursive;
+  letter-spacing: 2px;
+}
+
+.signed_in_as {
+  display: none;
+}
+
+.cta {
+  background: $brand_color;
+  color: white;
+}
+
+.cta:hover {
+  background: #ec7657;
+}
+
+.btn_secondary {
+  background: #eee;
+}
+
+.btn_secondary:hover {
+  color: #222;
+  background: #ddd;
+}
+
+.devise_links {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.devise_links a {
+  padding-left: 1rem;
+}
+
+@media(min-width: 768px) {
+
+  .signed_in_as {
+    display: block;
+  }
+
+  .wrap {
+    width: 50%;
+  }
+}
+
+@media(min-width: 1200px) {
+  .primary_navigation {
+    width: 50%;
+  }
+}

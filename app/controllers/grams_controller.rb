@@ -48,6 +48,7 @@ class GramsController < ApplicationController
 		return render_status(:not_found) if @gram.blank?
 		return render_status(:forbidden) if current_user != @gram.user
 
+		@gram.comments.destroy_all
 		@gram.destroy
 		redirect_to root_path
 	end

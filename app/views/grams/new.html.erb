@@ -1,5 +1,13 @@
-<h1 class='new-gram-form'>Add a New Gram</h1>
-<%= simple_form_for @gram do |f| %>
-  <%= f.input :message %>
-  <%= f.submit 'Post!' %>
-<% end %>
+<div class='form_wrap'>
+  <h2>Create a Gram!</h2>
+  <%= simple_form_for @gram do |f| %>
+    <div class="form-inputs">
+      <%= f.input :message %>
+      <%= f.input :photo %>
+    </div>
+    <div class="form-actions">
+      <%= f.button :submit, "Post Gram!", class: 'cta' %>
+      <%= link_to "Cancel", :back, class: "btn btn_secondary" %>
+    </div>
+  <% end %>
+</div>

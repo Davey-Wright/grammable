@@ -1,3 +1,52 @@
 // Place all the styles related to the grams controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.grams {
+  padding: 0px;
+}
+
+.grams li {
+  list-style: none;
+}
+
+.gram_card_image_container {
+  height: auto;
+  width: 100%;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.gram_card_image_container img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.gram_header {
+  margin-bottom: 0;
+}
+
+.gram_header, .gram_footer {
+  padding: 2rem;
+  background: white;
+}
+
+.gram_user {
+  font-size: 18px;
+  margin-left: .5rem;
+}
+
+.gram_card_user_controls {
+  text-align: right;
+  font-weight: bold;
+}
+
+.gram_card_user_controls a:last-child{
+  margin-left: 1.5rem;
+}
+
+@media(min-width: 768px) {
+  .gram_card_image_container {
+    height: 500px;
+  }
+}
